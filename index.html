@@ -6,11 +6,12 @@
 	</script>
 	<script src="getColors.js"></script>
 	<script>
-		function colorChanged(event, setText) {
-			if (setText)
-				document.getElementsByName("color-text")[0].value = event.target.value;
+		//text -> input[type=color] which validates -> elements
+		function colorChanged(event) {
+			//console.debug("colorChanged", event);
+			document.getElementsByName("color-text")[0].value = event.target.value;
 
-			let tbody = document.getElementById("colors");
+			let tbody = document.getElementById("palette");
 
 			let rowsHtml = "";
 			let colorsAndNames = getSchemeColors(event.target.value);
@@ -24,14 +25,39 @@
 			document.getElementById("output-square").style.background = colorsAndNames.colors[0];
 		}
 
-		function runColorChanged(setText) {
-			colorChanged({target:{value:document.getElementsByTagName("input")[0].value}}, setText);
+		function colorTextChanged(event) {
+			//console.debug("colorTextChanged", event);
+			let colorInput = document.getElementsByName("color")[0];
+			colorInput.value = event.target.value;
+			
+			colorInput.dispatchEvent(new Event("input"));
 		}
 
-		function colorTextChanged(event) {
-			document.getElementsByTagName("input")[0].value = event.target.value;
-			runColorChanged(false);
+		function compareChanged(event) {
+			//console.debug("compareChanged", event);
+			document.getElementById("compare-square").style.background
+				= document.getElementsByName("compare-text")[0].value
+				= event.target.value;
 		}
+
+		function compareTextChanged(event) {
+			//console.debug("compareTextChanged", event);
+			let colorInput = document.getElementsByName("compare")[0];
+			colorInput.value = event.target.value;
+
+			colorInput.dispatchEvent(new Event("input"));
+		}
+
+		function initInputs() {
+			[
+				document.getElementsByName("color")[0],
+				document.getElementsByName("color-text")[0],
+				document.getElementsByName("compare")[0],
+				document.getElementsByName("compare-text")[0]
+			].forEach(input => input.dispatchEvent(new Event("input")));
+		}
+
+		document.addEventListener("DOMContentLoaded", (e) => initInputs());
 	</script>
 </head>
 <body>
@@ -46,7 +72,7 @@
 						<th>name</th>
 					</tr>
 				</thead>
-				<tbody id="colors">
+				<tbody id="palette">
 					<!-- js -->
 				</tbody>
 			</table>
@@ -72,12 +98,9 @@
 				comparison
 			</div>
 			<br>
-			<input type="color" name="color" oninput="compareChanged(event, true)" />
-			<input type="text" name="color-text" oninput="compareTextChanged(event)" maxlength="7" />
+			<input type="color" name="compare" oninput="compareChanged(event, true)" />
+			<input type="text" name="compare-text" oninput="compareTextChanged(event)" maxlength="7" />
 		</div>
 	</div>
-	<script>
-		runColorChanged(true);
-	</script>
 </body>
 </html>
