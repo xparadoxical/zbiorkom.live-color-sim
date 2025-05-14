@@ -1,0 +1,27 @@
+table {
+	border-collapse: collapse;
+}
+th, td {
+	border: 1px solid black;
+}
+#colors, input[name="colorText"] {
+	font-family: monospace;
+	font-size: 1.2em;
+}
+
+input[name="colorText"] {
+	width: 5em;
+}
+
+.twoColumns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: max-content;
+	column-gap: 0.5em;
+}
+
+#inputSquare, #outputSquare {
+	width: 5em;
+	height: 5em;
+	border: 1px solid black;
+}

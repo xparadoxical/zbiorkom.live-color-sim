@@ -1,0 +1,74 @@
+<html>
+<head>
+	<link rel="stylesheet" href="style.css">
+	<script typescriptlangdotorg-fixup>
+		let exports = {};
+	</script>
+	<script src="getColors.js"></script>
+	<script>
+		function colorChanged(event, setText) {
+			if (setText)
+				document.getElementsByName("colorText")[0].value = event.target.value;
+
+			let tbody = document.getElementById("colors");
+
+			let rowsHtml = "";
+			let colorsAndNames = getSchemeColors(event.target.value);
+			for (var i = 0; i < colorsAndNames.colors.length; i++) {
+				rowsHtml += `<tr><td>${colorsAndNames.colors[i]}</td><td style="background-color:${colorsAndNames.colors[i]};"></td><td>${colorsAndNames.names[i]}</td></tr>`;
+			}
+
+			tbody.innerHTML = rowsHtml;
+
+			document.getElementById("inputSquare").style.background = event.target.value;
+			document.getElementById("outputSquare").style.background = colorsAndNames.colors[0];
+		}
+
+		function runColorChanged(setText) {
+			colorChanged({target:{value:document.getElementsByTagName("input")[0].value}}, setText);
+		}
+
+		function colorTextChanged(event) {
+			document.getElementsByTagName("input")[0].value = event.target.value;
+			runColorChanged(false);
+		}
+	</script>
+</head>
+<body>
+	<div class="twoColumns">
+		<div class="column">
+			<table>
+				<caption>Scheme.light</caption>
+				<thead>
+					<tr>
+						<th>hex</th>
+						<th>preview</th>
+						<th>name</th>
+					</tr>
+				</thead>
+				<tbody id="colors">
+					<!-- js -->
+				</tbody>
+			</table>
+		</div>
+		<div class="column">
+			<div class="twoColumns">
+				<div class="column">
+					<div id="inputSquare"></div>
+					input
+				</div>
+				<div class="column">
+					<div id="outputSquare"></div>
+					primary (out)
+				</div>
+			</div>
+			<br>
+			<input type="color" name="color" oninput="colorChanged(event, true)" />
+			<input type="text" name="colorText" oninput="colorTextChanged(event)" maxlength="7" />
+		</div>
+	</div>
+	<script>
+		runColorChanged(true);
+	</script>
+</body>
+</html>
