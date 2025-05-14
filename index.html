@@ -8,7 +8,7 @@
 	<script>
 		function colorChanged(event, setText) {
 			if (setText)
-				document.getElementsByName("colorText")[0].value = event.target.value;
+				document.getElementsByName("color-text")[0].value = event.target.value;
 
 			let tbody = document.getElementById("colors");
 
@@ -20,8 +20,8 @@
 
 			tbody.innerHTML = rowsHtml;
 
-			document.getElementById("inputSquare").style.background = event.target.value;
-			document.getElementById("outputSquare").style.background = colorsAndNames.colors[0];
+			document.getElementById("input-square").style.background = event.target.value;
+			document.getElementById("output-square").style.background = colorsAndNames.colors[0];
 		}
 
 		function runColorChanged(setText) {
@@ -35,7 +35,7 @@
 	</script>
 </head>
 <body>
-	<div class="twoColumns">
+	<div class="main-container">
 		<div class="column">
 			<table>
 				<caption>Scheme.light</caption>
@@ -52,19 +52,28 @@
 			</table>
 		</div>
 		<div class="column">
-			<div class="twoColumns">
+			<div class="color-selection">
 				<div class="column">
-					<div id="inputSquare"></div>
+					<div id="input-square" class="preview"></div>
 					input
 				</div>
 				<div class="column">
-					<div id="outputSquare"></div>
+					<div id="output-square" class="preview"></div>
 					primary (out)
 				</div>
 			</div>
 			<br>
 			<input type="color" name="color" oninput="colorChanged(event, true)" />
-			<input type="text" name="colorText" oninput="colorTextChanged(event)" maxlength="7" />
+			<input type="text" name="color-text" oninput="colorTextChanged(event)" maxlength="7" />
+		</div>
+		<div class="column">
+			<div>
+				<div id="compare-square" class="preview"></div>
+				comparison
+			</div>
+			<br>
+			<input type="color" name="color" oninput="compareChanged(event, true)" />
+			<input type="text" name="color-text" oninput="compareTextChanged(event)" maxlength="7" />
 		</div>
 	</div>
 	<script>
