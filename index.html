@@ -14,7 +14,8 @@
 			let tbody = document.getElementById("palette");
 
 			let rowsHtml = "";
-			let colorsAndNames = getSchemeColors(event.target.value);
+			let dark = document.getElementsByName("dark")[0].checked;
+			let colorsAndNames = getSchemeColors(event.target.value, dark);
 			for (var i = 0; i < colorsAndNames.colors.length; i++) {
 				rowsHtml += `<tr><td>${colorsAndNames.colors[i]}</td><td style="background-color:${colorsAndNames.colors[i]};"></td><td>${colorsAndNames.names[i]}</td></tr>`;
 			}
@@ -46,6 +47,12 @@
 			colorInput.value = event.target.value;
 
 			colorInput.dispatchEvent(new Event("input"));
+		}
+
+		function darkChanged(event) {
+			document.getElementsByTagName("caption")[0].innerText
+				= event.target.checked ? "Scheme.dark" : "Scheme.light";
+			document.getElementsByName("color")[0].dispatchEvent(new Event("input"));
 		}
 
 		function initInputs() {
@@ -91,6 +98,9 @@
 			<br>
 			<input type="color" name="color" oninput="colorChanged(event, true)" />
 			<input type="text" name="color-text" oninput="colorTextChanged(event)" maxlength="7" />
+			<br>
+			<input type="checkbox" name="dark" oninput="darkChanged(event)" />
+			<label for="dark">dark scheme</label>
 		</div>
 		<div>
 			<div>
